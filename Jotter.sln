@@ -5,7 +5,14 @@ VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jotter.Scenarios", "src\Jotter.Scenarios\Jotter.Scenarios.csproj", "{6B41530C-7E92-4A40-AF98-B5B3BD34BB44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jotter.Console", "src\Jotter.Console\Jotter.Console.csproj", "{A2960199-6C39-44A0-8DDF-D8078B384F6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jotter.Console", "src\Jotter.Console\Jotter.Console.csproj", "{A2960199-6C39-44A0-8DDF-D8078B384F6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{79A320E7-34D0-40B8-A8CF-5412AF4BB128}"
+	ProjectSection(SolutionItems) = preProject
+		build.cmd = build.cmd
+		build.ps1 = build.ps1
+		common.ps1 = common.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -25,7 +25,7 @@ namespace Jotter.Scenarios
                 case JwtScenario.Unspecified:
                     throw new NotSupportedException("Pick a valid scenario!");
                 case JwtScenario.Good:
-                    baseScenario.NotAfter = DateTimeOffset.Now.AddYears(10);
+                    // NOOP
                     break;
                 case JwtScenario.GoodLongLife:
                     baseScenario.NotAfter = DateTimeOffset.Now.AddYears(10);
