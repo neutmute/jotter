@@ -12,22 +12,43 @@ namespace Jotter.Scenarios
     {
         internal static DateTimeOffset UnixEpoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
 
-        public static string Generate(IJwtBuilderParams scenario)
+
+        public static List<ScenarioOutput> GenerateAll(ScenarioFactory factory)
         {
-            var payload = GetPayload(scenario);
-
-            var privateKey = scenario.Signing.PrivateKey;
+            var scenarios = ((JwtScenario[]) Enum.GetValues(typeof(JwtScenario))).ToList();
+            scenarios.Remove(JwtScenario.Unspecified);
             
-            var output = JWT.Encode(
-                payload
-                , privateKey
-                , JwsAlgorithm.RS256
-                , scenario.ExtraHeaders);
-
+            var output = scenarios
+                            .Select(s => Generate(factory, s))
+                            .ToList();
+            
             return output;
         }
 
-        private static Dictionary<string, object> GetPayload(IJwtBuilderParams scenario)
+        public static ScenarioOutput Generate(ScenarioFactory factory, JwtScenario scenario)
+        {
+            var options = factory.BuildOptions(scenario);
+            return Generate(scenario, options);
+        }
+
+        public static ScenarioOutput Generate(JwtScenario scenario, IJwtBuildOptions jwtOptions)
+        {
+            var payload = GetPayload(jwtOptions);
+
+            var privateKey = jwtOptions.Signing.PrivateKey;
+
+            var output = new ScenarioOutput();
+            output.Scenario = scenario;
+            output.Token = JWT.Encode(
+                payload
+                , privateKey
+                , JwsAlgorithm.RS256
+                , jwtOptions.ExtraHeaders);
+            
+            return output;
+        }
+
+        private static Dictionary<string, object> GetPayload(IJwtBuildOptions scenario)
         {
             var payload = scenario.Claims.ToDictionary(c => c.Type, c => (object)c.Value);
 

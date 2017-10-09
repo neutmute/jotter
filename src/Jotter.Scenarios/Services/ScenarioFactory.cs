@@ -17,7 +17,7 @@ namespace Jotter.Scenarios
 
         public TimeSpan LegalValidWindow { get; set; }
 
-        public IJwtBuilderParams GetParameters(JwtScenario scenario)
+        public IJwtBuildOptions BuildOptions(JwtScenario scenario)
         {
             var baseScenario = GetGoodScenario();
             switch(scenario)

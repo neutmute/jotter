@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace Jotter.Scenarios
 {
 
-    public class JwtBuilderParams : IJwtBuilderParams
+    public class JwtBuilderParams : IJwtBuildOptions
     {
         private DateTimeOffset _now;
 
