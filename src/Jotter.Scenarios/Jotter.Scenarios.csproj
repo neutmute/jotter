@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Authors>neutmute</Authors>
+    <PackageProjectUrl>https://github.com/neutmute/jotter</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
