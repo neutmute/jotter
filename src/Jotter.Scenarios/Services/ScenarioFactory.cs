@@ -10,13 +10,7 @@ namespace Jotter.Scenarios
         /// Should make a new scenario each time
         /// </summary>
         public GenerateScenarioDelegate GetGoodScenario { get; set; }
-
-
-        /// <summary>
-        /// Certificate that should be rejected by the host
-        /// </summary>
-       // public CertificateParams InvalidSigningCertificate { get; set; }
-
+        
         public TimeSpan LegalValidWindow { get; set; }
         
         internal IJwtBuildOptions Generate(JwtScenario scenario, string certificateThumbprint)
@@ -36,16 +30,16 @@ namespace Jotter.Scenarios
                     baseScenario.NotBefore = DateTimeOffset.Now.AddMinutes(-10);
                     baseScenario.NotAfter = DateTimeOffset.Now.AddMinutes(-1);
                     break;
+                case JwtScenario.FutureIssuedAt:
+                    baseScenario.Created = DateTimeOffset.Now.AddMinutes(1);
+                    break;
                 case JwtScenario.NotSigned:
                     baseScenario.Signing = baseScenario.Signing.Clone();
-                    baseScenario.Signing.PrivateKey = null;
+                    baseScenario.Signing = null;
                     break;
                 case JwtScenario.ValidWindowTooLarge:
                     baseScenario.NotBefore = baseScenario.NotBefore - LegalValidWindow;
                     break;
-                //case JwtScenario.WrongCertificate:
-                //    baseScenario.Signing = InvalidSigningCertificate;
-                //    break;
                 case JwtScenario.MissingSubject:
                     baseScenario.Claims.RemoveAll(c => c.Type.ToLower().Equals("subject"));
                     break;

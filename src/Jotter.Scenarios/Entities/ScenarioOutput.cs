@@ -11,5 +11,7 @@ namespace Jotter.Scenarios
         public JwtScenario Scenario { get; set; }
 
         public string Token { get; set; }
+
+        public string Description { get; set; }
     }
 }

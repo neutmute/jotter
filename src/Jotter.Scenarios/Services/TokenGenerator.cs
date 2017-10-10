@@ -34,7 +34,7 @@ namespace Jotter.Scenarios
         {
             var payload = GetPayload(jwtOptions);
 
-            var privateKey = jwtOptions.Signing.PrivateKey;
+            var privateKey = jwtOptions.Signing?.PrivateKey;
 
             var output = new ScenarioOutput();
             output.Scenario = scenario;
@@ -76,17 +76,5 @@ namespace Jotter.Scenarios
 
             return payload;
         }
-
-        /// <summary>
-        /// http://clrsecurity.codeplex.com/discussions/243156
-        /// </summary>
-        //public static RSACryptoServiceProvider FixCsp3(X509Certificate2 cert)
-        //{
-        //    var rsa = cert.PrivateKey as RSACryptoServiceProvider;
-        //    var privateKeyBlob = rsa.ExportCspBlob(true);
-        //    var rsa2 = new RSACryptoServiceProvider();
-        //    rsa2.ImportCspBlob(privateKeyBlob);
-        //    return rsa2;
-        //}
     }
 }

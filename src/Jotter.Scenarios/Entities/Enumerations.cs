@@ -7,14 +7,31 @@ namespace Jotter.Scenarios
     {
         Unspecified = 0,
         
+        [Description("A valid JWT")]
         Good,
+
+        [Description("JWT that doesn't expire until the far future")]
         GoodLongLife,
+
+        [Description("JWT whose expiry is in the past")]
         Expired,
-        //WrongCertificate,
+
+        [Description("An unsigned JWT")]
         NotSigned,
+
+        [Description("JWT whose lifetime is slightly too long")]
         ValidWindowTooLarge,
+
+        [Description("JWT created in the near future")]
+        FutureIssuedAt,
+
+        [Description("JWT missing the subject claim")]
         MissingSubject,
+
+        [Description("JWT with incorrect issuer")]
         BadIssuer,
+
+        [Description("JWT with incorrect audience")]
         BadAudience
     }
 }
