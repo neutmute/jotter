@@ -23,6 +23,10 @@ namespace Jotter.Scenarios
                     baseScenario.NotBefore = DateTimeOffset.Now.AddMinutes(-10);
                     baseScenario.NotAfter = DateTimeOffset.Now.AddMinutes(-1);
                     break;
+                case JwtScenario.TooSoon:
+                    baseScenario.NotBefore = DateTimeOffset.Now.AddMinutes(10);
+                    baseScenario.NotAfter = baseScenario.NotBefore.Add(options.LegalValidWindow);
+                    break;
                 case JwtScenario.FutureIssuedAt:
                     baseScenario.Created = DateTimeOffset.Now.AddMinutes(1);
                     break;

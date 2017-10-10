@@ -15,6 +15,9 @@ namespace Jotter.Scenarios
 
         [Description("JWT whose expiry is in the past")]
         Expired,
+        
+        [Description("JWT whose not before is in the future")]
+        TooSoon,
 
         [Description("JWT that is unsigned")]
         NotSigned,
@@ -22,6 +25,9 @@ namespace Jotter.Scenarios
         [Description("JWT whose lifetime is slightly too long")]
         ValidWindowTooLarge,
 
+        /// <summary>
+        /// This is a legal token really - allows for clock skew
+        /// </summary>
         [Description("JWT created in the near future")]
         FutureIssuedAt,
 
