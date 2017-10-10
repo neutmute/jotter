@@ -12,26 +12,25 @@ namespace Jotter.Scenarios
     {
         internal static DateTimeOffset UnixEpoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
 
-
-        public static List<ScenarioOutput> GenerateAll(ScenarioFactory factory)
+        public List<ScenarioOutput> GenerateAll(ScenarioFactory factory, string certificateThumbprint)
         {
             var scenarios = ((JwtScenario[]) Enum.GetValues(typeof(JwtScenario))).ToList();
             scenarios.Remove(JwtScenario.Unspecified);
             
             var output = scenarios
-                            .Select(s => Generate(factory, s))
+                            .Select(scenario => Generate(factory, scenario, certificateThumbprint))
                             .ToList();
             
             return output;
         }
 
-        public static ScenarioOutput Generate(ScenarioFactory factory, JwtScenario scenario)
+        public ScenarioOutput Generate(ScenarioFactory factory, JwtScenario scenario, string certificateThumbprint)
         {
-            var options = factory.BuildOptions(scenario);
+            var options = factory.Generate(scenario, certificateThumbprint);
             return Generate(scenario, options);
         }
 
-        public static ScenarioOutput Generate(JwtScenario scenario, IJwtBuildOptions jwtOptions)
+        public ScenarioOutput Generate(JwtScenario scenario, IJwtBuildOptions jwtOptions)
         {
             var payload = GetPayload(jwtOptions);
 
@@ -39,11 +38,22 @@ namespace Jotter.Scenarios
 
             var output = new ScenarioOutput();
             output.Scenario = scenario;
-            output.Token = JWT.Encode(
-                payload
-                , privateKey
-                , JwsAlgorithm.RS256
-                , jwtOptions.ExtraHeaders);
+            output.BuildOptions = jwtOptions;
+
+            try
+            {
+                var algorithm = privateKey == null ? JwsAlgorithm.none : JwsAlgorithm.RS256;
+
+                output.Token = JWT.Encode(
+                    payload
+                    , privateKey
+                    , algorithm
+                    , jwtOptions.ExtraHeaders);
+            }
+            catch(Exception e)
+            {
+                throw new Exception($"Failed to encode {scenario}", e);
+            }
             
             return output;
         }

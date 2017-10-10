@@ -10,8 +10,11 @@ namespace Jotter.Scenarios
         Good,
         GoodLongLife,
         Expired,
-        WrongCertificate,
+        //WrongCertificate,
         NotSigned,
-        ValidWindowTooLarge
+        ValidWindowTooLarge,
+        MissingSubject,
+        BadIssuer,
+        BadAudience
     }
 }

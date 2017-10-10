@@ -2,24 +2,26 @@
 
 namespace Jotter.Scenarios
 {
+    public delegate JwtBuilderOptions GenerateScenarioDelegate(string certificateThumbprint);
+
     public class ScenarioFactory
     {
         /// <summary>
         /// Should make a new scenario each time
         /// </summary>
-        public Func<JwtBuilderParams> GetGoodScenario { get; set; }
+        public GenerateScenarioDelegate GetGoodScenario { get; set; }
 
 
         /// <summary>
         /// Certificate that should be rejected by the host
         /// </summary>
-        public CertificateParams InvalidSigningCertificate { get; set; }
+       // public CertificateParams InvalidSigningCertificate { get; set; }
 
         public TimeSpan LegalValidWindow { get; set; }
-
-        public IJwtBuildOptions BuildOptions(JwtScenario scenario)
+        
+        internal IJwtBuildOptions Generate(JwtScenario scenario, string certificateThumbprint)
         {
-            var baseScenario = GetGoodScenario();
+            var baseScenario = GetGoodScenario(certificateThumbprint);
             switch(scenario)
             {
                 case JwtScenario.Unspecified:
@@ -35,13 +37,23 @@ namespace Jotter.Scenarios
                     baseScenario.NotAfter = DateTimeOffset.Now.AddMinutes(-1);
                     break;
                 case JwtScenario.NotSigned:
+                    baseScenario.Signing = baseScenario.Signing.Clone();
                     baseScenario.Signing.PrivateKey = null;
                     break;
                 case JwtScenario.ValidWindowTooLarge:
                     baseScenario.NotBefore = baseScenario.NotBefore - LegalValidWindow;
                     break;
-                case JwtScenario.WrongCertificate:
-                    baseScenario.Signing = InvalidSigningCertificate;
+                //case JwtScenario.WrongCertificate:
+                //    baseScenario.Signing = InvalidSigningCertificate;
+                //    break;
+                case JwtScenario.MissingSubject:
+                    baseScenario.Claims.RemoveAll(c => c.Type.ToLower().Equals("subject"));
+                    break;
+                case JwtScenario.BadAudience:
+                    baseScenario.Audience = "http://not-your-expected-audience";
+                    break;
+                case JwtScenario.BadIssuer:
+                    baseScenario.Issuer = "http://not-your-expected-issuer";
                     break;
                 default:
                     throw new NotImplementedException("Write more code here");

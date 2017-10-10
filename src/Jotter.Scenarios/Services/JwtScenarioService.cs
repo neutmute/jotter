@@ -14,10 +14,12 @@ namespace Jotter.Scenarios.Services
             return new Dictionary<JwtScenario, string>
             {
                 {JwtScenario.Good, "A valid JWT" }
-               ,{JwtScenario.GoodLongLife, "JWT that doesn't expire until the far future" }
-               ,{JwtScenario.NotSigned, "An unsigned JWT" }
-               ,{JwtScenario.ValidWindowTooLarge, "JWT whose lifetime is slightly too long" }
-               ,{JwtScenario.WrongCertificate, "JWT signed with invalid certificate" }
+                ,{JwtScenario.GoodLongLife, "JWT that doesn't expire until the far future" }
+                ,{JwtScenario.NotSigned, "An unsigned JWT" }
+                ,{JwtScenario.ValidWindowTooLarge, "JWT whose lifetime is slightly too long" }
+                //,{JwtScenario.WrongCertificate, "JWT signed with invalid certificate" }
+                ,{JwtScenario.BadAudience, "JWT with incorrect audience" }
+                ,{JwtScenario.BadIssuer, "JWT with incorrect issuer" }
             };
         }
     }

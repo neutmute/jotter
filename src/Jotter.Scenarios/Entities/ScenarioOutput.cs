@@ -6,15 +6,10 @@ namespace Jotter.Scenarios
 {
     public class ScenarioOutput : IScenarioOutput
     {
-        public DateTimeOffset Created { get; set; }
+        public IJwtBuildOptions BuildOptions { get; set; }
 
         public JwtScenario Scenario { get; set; }
 
         public string Token { get; set; }
-
-        public ScenarioOutput()
-        {
-            Created = DateTimeOffset.Now;
-        }
     }
 }

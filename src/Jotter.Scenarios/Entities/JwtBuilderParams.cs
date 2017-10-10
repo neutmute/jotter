@@ -4,15 +4,24 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Jotter.Scenarios
 {
+    public class JwtBuilderOptions : JwtBuilderOptionsUnsigned, IJwtBuildOptions
+    {
+        public CertificateParams Signing { get; set; }
 
-    public class JwtBuilderParams : IJwtBuildOptions
+        public JwtBuilderOptions()
+        {
+            Signing = new CertificateParams();
+        }
+    }
+    
+    public class JwtBuilderOptionsUnsigned : IJwtBuildOptionsUnsigned
     {
         private DateTimeOffset _now;
 
         public string Audience { get; set; }
 
         public string Issuer { get; set; }
-
+        
         public X509Certificate2 SigningCertificate { get; set; }
 
         public List<Claim> Claims { get; private set; }
@@ -23,16 +32,14 @@ namespace Jotter.Scenarios
 
         public DateTimeOffset NotAfter { get; set; }
 
-        public CertificateParams Signing { get; set; }
 
         public Dictionary<string, object> ExtraHeaders { get; private set; }
 
-        public JwtBuilderParams()
+        public JwtBuilderOptionsUnsigned()
         {
             _now = DateTimeOffset.Now;
             Claims = new List<Claim>();
             ExtraHeaders = new Dictionary<string, object>();
-            Signing = new CertificateParams();
         }
 
         public void AddClaim(string type, string value)

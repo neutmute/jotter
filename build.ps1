@@ -42,7 +42,7 @@ function nugetPack{
     New-Item -Force -ItemType directory -Path $outputFolder  | Out-Null
     Remove-Item $outputFolder\*.nupkg -Force # so teamcity builds don't accumulate artifacts
 
-    dotnet pack .\src\Jotter.Scenarios -o $outputFolder /p:PackageVersion=$env:PackageVersion
+    dotnet pack --include-symbols .\src\Jotter.Scenarios -o $outputFolder /p:PackageVersion=$env:PackageVersion
 }
 
 function nugetPublish{

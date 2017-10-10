@@ -5,7 +5,12 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Jotter.Scenarios
 {
-    public interface IJwtBuildOptions
+    public interface IJwtBuildOptions : IJwtBuildOptionsUnsigned
+    {
+        CertificateParams Signing { get; set; }
+    }
+
+    public interface IJwtBuildOptionsUnsigned
     {
         string Audience { get; set; }
 
@@ -18,8 +23,6 @@ namespace Jotter.Scenarios
         DateTimeOffset NotAfter { get; set; }
 
         DateTimeOffset NotBefore { get; set; }
-
-        CertificateParams Signing { get; set; }
 
         Dictionary<string, object> ExtraHeaders { get;  }
     }
