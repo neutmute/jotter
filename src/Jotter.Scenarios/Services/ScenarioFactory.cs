@@ -38,7 +38,7 @@ namespace Jotter.Scenarios
                     baseScenario.Signing = null;
                     break;
                 case JwtScenario.ValidWindowTooLarge:
-                    baseScenario.NotBefore = baseScenario.NotBefore - LegalValidWindow;
+                    baseScenario.NotAfter = baseScenario.NotBefore + LegalValidWindow + TimeSpan.FromMinutes(1);
                     break;
                 case JwtScenario.MissingSubject:
                     baseScenario.Claims.RemoveAll(c => c.Type.ToLower().Equals("subject"));
