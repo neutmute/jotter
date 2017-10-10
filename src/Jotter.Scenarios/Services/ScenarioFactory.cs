@@ -2,20 +2,13 @@
 
 namespace Jotter.Scenarios
 {
-    public delegate JwtBuilderOptions GenerateScenarioDelegate(string certificateThumbprint);
+    public delegate JwtBuildOptions GenerateScenarioDelegate(string certificateThumbprint);
 
-    public class ScenarioFactory
+    internal class ScenarioFactory
     {
-        /// <summary>
-        /// Should make a new scenario each time
-        /// </summary>
-        public GenerateScenarioDelegate GetGoodScenario { get; set; }
-        
-        public TimeSpan LegalValidWindow { get; set; }
-        
-        internal IJwtBuildOptions Generate(JwtScenario scenario, string certificateThumbprint)
+        internal IJwtBuildOptions Generate(JwtScenario scenario, ScenarioOptions options, string certificateThumbprint)
         {
-            var baseScenario = GetGoodScenario(certificateThumbprint);
+            var baseScenario = options.GetGoodScenario(certificateThumbprint);
             switch(scenario)
             {
                 case JwtScenario.Unspecified:
@@ -38,7 +31,7 @@ namespace Jotter.Scenarios
                     baseScenario.Signing = null;
                     break;
                 case JwtScenario.ValidWindowTooLarge:
-                    baseScenario.NotAfter = baseScenario.NotBefore + LegalValidWindow + TimeSpan.FromMinutes(1);
+                    baseScenario.NotAfter = baseScenario.NotBefore + options.LegalValidWindow + TimeSpan.FromMinutes(1);
                     break;
                 case JwtScenario.MissingSubject:
                     baseScenario.Claims.RemoveAll(c => c.Type.ToLower().Equals("sub"));
@@ -62,11 +55,6 @@ namespace Jotter.Scenarios
 
             }
             return baseScenario;
-        }
-
-        public ScenarioFactory()
-        {
-            LegalValidWindow = TimeSpan.FromMinutes(5);
         }
     }
 }

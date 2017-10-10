@@ -12,22 +12,29 @@ namespace Jotter.Scenarios
     {
         internal static DateTimeOffset UnixEpoch = new DateTimeOffset(1970, 1, 1, 0, 0, 0, 0, TimeSpan.Zero);
 
-        public List<ScenarioOutput> GenerateAll(ScenarioFactory factory, string certificateThumbprint)
+        ScenarioFactory _scenarioFactory;
+
+        public TokenGenerator()
+        {
+            _scenarioFactory = new ScenarioFactory();
+        }
+
+        public List<ScenarioOutput> GenerateAll(ScenarioOptions options, string certificateThumbprint)
         {
             var scenarios = ((JwtScenario[]) Enum.GetValues(typeof(JwtScenario))).ToList();
             scenarios.Remove(JwtScenario.Unspecified);
             
             var output = scenarios
-                            .Select(scenario => Generate(factory, scenario, certificateThumbprint))
+                            .Select(scenario => Generate(options, scenario, certificateThumbprint))
                             .ToList();
             
             return output;
         }
 
-        public ScenarioOutput Generate(ScenarioFactory factory, JwtScenario scenario, string certificateThumbprint)
+        public ScenarioOutput Generate(ScenarioOptions options, JwtScenario scenario, string certificateThumbprint)
         {
-            var options = factory.Generate(scenario, certificateThumbprint);
-            return Generate(scenario, options);
+            var jwtOptions = _scenarioFactory.Generate(scenario, options, certificateThumbprint);
+            return Generate(scenario, jwtOptions);
         }
 
         public ScenarioOutput Generate(JwtScenario scenario, IJwtBuildOptions jwtOptions)

@@ -5,17 +5,17 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Jotter.Scenarios
 {
-    public class JwtBuilderOptions : JwtBuilderOptionsUnsigned, IJwtBuildOptions
+    public class JwtBuildOptions : JwtBuildOptionsUnsigned, IJwtBuildOptions
     {
         public CertificateParams Signing { get; set; }
 
-        public JwtBuilderOptions()
+        public JwtBuildOptions()
         {
             Signing = new CertificateParams();
         }
     }
     
-    public class JwtBuilderOptionsUnsigned : IJwtBuildOptionsUnsigned
+    public class JwtBuildOptionsUnsigned : IJwtBuildOptionsUnsigned
     {
         private DateTimeOffset _now;
 
@@ -36,7 +36,7 @@ namespace Jotter.Scenarios
 
         public Dictionary<string, object> ExtraHeaders { get; private set; }
 
-        public JwtBuilderOptionsUnsigned()
+        public JwtBuildOptionsUnsigned()
         {
             _now = DateTimeOffset.Now;
             Claims = new List<Claim>();

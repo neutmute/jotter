@@ -16,7 +16,7 @@ namespace Jotter.Scenarios
         [Description("JWT whose expiry is in the past")]
         Expired,
 
-        [Description("An unsigned JWT")]
+        [Description("JWT that is unsigned")]
         NotSigned,
 
         [Description("JWT whose lifetime is slightly too long")]
@@ -28,7 +28,7 @@ namespace Jotter.Scenarios
         [Description("JWT missing the subject claim")]
         MissingSubject,
 
-        [Description("Missing kid header")]
+        [Description("JWT missing kid header")]
         MissingKid,
 
         [Description("JWT with incorrect issuer")]
