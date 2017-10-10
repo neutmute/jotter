@@ -41,7 +41,7 @@ namespace Jotter.Scenarios
                     baseScenario.NotAfter = baseScenario.NotBefore + LegalValidWindow + TimeSpan.FromMinutes(1);
                     break;
                 case JwtScenario.MissingSubject:
-                    baseScenario.Claims.RemoveAll(c => c.Type.ToLower().Equals("subject"));
+                    baseScenario.Claims.RemoveAll(c => c.Type.ToLower().Equals("sub"));
                     break;
                 case JwtScenario.MissingKid:
                     var headers = baseScenario.ExtraHeaders;
