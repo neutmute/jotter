@@ -28,6 +28,9 @@ namespace Jotter.Scenarios
         [Description("JWT missing the subject claim")]
         MissingSubject,
 
+        [Description("Missing kid header")]
+        MissingKid,
+
         [Description("JWT with incorrect issuer")]
         BadIssuer,
 

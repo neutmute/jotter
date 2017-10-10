@@ -43,6 +43,14 @@ namespace Jotter.Scenarios
                 case JwtScenario.MissingSubject:
                     baseScenario.Claims.RemoveAll(c => c.Type.ToLower().Equals("subject"));
                     break;
+                case JwtScenario.MissingKid:
+                    var headers = baseScenario.ExtraHeaders;
+                    const string kidKey = "kid";
+                    if (headers.ContainsKey(kidKey))
+                    {
+                        baseScenario.ExtraHeaders.Remove(kidKey);
+                    }
+                    break;
                 case JwtScenario.BadAudience:
                     baseScenario.Audience = "http://not-your-expected-audience";
                     break;

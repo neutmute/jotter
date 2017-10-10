@@ -15,8 +15,7 @@ namespace Jotter.Scenarios
             output.Certificate = Certificate;
             return output;
         }
-
-
+        
         /// <summary>
         /// http://clrsecurity.codeplex.com/discussions/243156
         /// </summary>
